@@ -1,11 +1,13 @@
 using IdentityApp.Models;
 using IdentityApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Controllers
 {
+    [Authorize(Roles ="admin")] // sadece admin rolündeki kullanıcılar erişebilir buradaki linklere
     public class UsersController:Controller
     {
         private UserManager<AppUser> _userManager;
@@ -15,8 +17,11 @@ namespace IdentityApp.Controllers
             _userManager = userManager;
             _roleManager = roleManager; 
         }
+
+        [AllowAnonymous] // bu actiona herkes erişebilir.Anonymous demek kimliği olmayan kullanıcı demek.Böylelikle hepsini kapatıp sadece bunu açabiliriz. Tabi bunun tam tersini de yapabiliriz.[Authorize(Roles ="admin")] bunu buraya yapıştırırsak sadece buraya admin kullanıcılar erişebilir.
         public IActionResult Index()
         {
+           
             return View(_userManager.Users);
         }
 

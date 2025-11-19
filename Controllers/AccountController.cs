@@ -98,7 +98,7 @@ namespace IdentityApp.Controllers
                     var url = Url.Action("ConfirmEmail","Account", new { user.Id, token} );
 
                     // email
-                    await _emailSender.SendEmailAsync(user.Email, "Hesap Onayı", $"Lütfen email hesabınızı onaylamak için linke <a href='http://localhost:5031{url}'>tıklayınız.</a>");
+                    await _emailSender.SendEmailAsync(user.Email, "Hesap Onayı", $"Lütfen email hesabınızı onaylamak için linke <a href='http://localhost:5034{url}'>tıklayınız.</a>");
 
                     TempData["message"]  = "Email hesabınızdaki onay mailini tıklayınız."; 
                     return RedirectToAction("Login","Account");
@@ -137,6 +137,10 @@ namespace IdentityApp.Controllers
             return View();
         }
 
-
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
     }
 }
