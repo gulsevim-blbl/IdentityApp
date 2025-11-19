@@ -12,7 +12,7 @@ builder.Services.AddDbContext<IdentityContext>(
     Options => Options.UseSqlite(builder.Configuration["ConnectionStrings:SQLite_Connection"]));
 
 builder.Services.AddIdentity<AppUser, AppRole>()
-    .AddEntityFrameworkStores<IdentityContext>();
+    .AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options => {
     options.Password.RequiredLength = 6;
@@ -25,6 +25,8 @@ builder.Services.Configure<IdentityOptions>(options => {
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
+
+    options.SignIn.RequireConfirmedEmail = true;
    
 });
 

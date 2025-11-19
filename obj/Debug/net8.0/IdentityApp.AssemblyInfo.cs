@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IdentityApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54ad1515bdae40bc4f6f188d3e21d3b2e03dbaff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db174aadaff6dd798ac351111f48d09addaf82f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("IdentityApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IdentityApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

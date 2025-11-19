@@ -10,46 +10,14 @@ namespace IdentityApp.Controllers
     {
         private UserManager<AppUser> _userManager;
         private RoleManager<AppRole> _roleManager;
-
         public UsersController(UserManager<AppUser>  userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
+            _roleManager = roleManager; 
         }
         public IActionResult Index()
         {
             return View(_userManager.Users);
-        }
-
-         public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateViewModel model)
-        {
-            if(ModelState.IsValid)
-            {
-                var user = new AppUser { 
-                    UserName = model.UserName, 
-                    Email = model.Email, 
-                    FullName = model.FullName 
-                };
-
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-                if(result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-
-                foreach (IdentityError err in result.Errors)
-                {
-                    ModelState.AddModelError("", err.Description);                    
-                }
-            }
-            return View(model);
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -63,17 +31,19 @@ namespace IdentityApp.Controllers
 
             if(user != null)
             {
-                ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync(); //seçebileceği rolleri viewbag aracıığı ile sayfaya taşınır
+                ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
+
                 return View(new EditViewModel {
                     Id = user.Id,
                     FullName = user.FullName,
                     Email = user.Email,
-                    SelectedRoles = await _userManager.GetRolesAsync(user) // kullanıcının rollerini alıp bize gösteriyoruz.(Daha önceden seçmiş olduğu roller)
+                    SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
             }
             
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditViewModel model)
         {
@@ -101,10 +71,10 @@ namespace IdentityApp.Controllers
 
                     if(result.Succeeded)
                     {
-                        await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user)); //kullanıcının mevcut rollerini siliyoruz
+                        await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
                         if(model.SelectedRoles != null)
                         {
-                            await _userManager.AddToRolesAsync(user, model.SelectedRoles); //seçilen rolleri ekliyoruz
+                            await _userManager.AddToRolesAsync(user, model.SelectedRoles);
                         }
                         return RedirectToAction("Index");
                     }
@@ -118,7 +88,7 @@ namespace IdentityApp.Controllers
 
             return View(model);
         }
-        
+    
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -131,5 +101,7 @@ namespace IdentityApp.Controllers
 
             return RedirectToAction("Index");
         }
+
     }
+
 }
